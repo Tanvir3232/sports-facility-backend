@@ -20,4 +20,9 @@ router.delete(
     auth("admin"),
     FacilityControllers.deleteFacility
 )
+router.patch(
+    '/:id',
+    auth("admin"),
+    FacilityControllers.updateFacility
+)
 export const FacilityRoutes = router;
