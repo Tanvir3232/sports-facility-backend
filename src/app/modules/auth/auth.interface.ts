@@ -1,4 +1,5 @@
 import { Model, Types } from "mongoose";
+import { USER_ROLE } from "./auth.constant";
 
 export interface TUser {
     name: string;
@@ -12,6 +13,7 @@ export type TLoginUser = {
     id: Types.ObjectId;
     password: string;
 }
+export type TUserRole = keyof typeof USER_ROLE;
 export interface UserModel extends Model<TUser> {
     isUserExistsByCustomId(id: string): Promise<TUser>;
     isPasswordMatched(plainTextPassword: string, hashedPassword: string): Promise<boolean>;
