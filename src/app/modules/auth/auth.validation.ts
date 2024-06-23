@@ -16,7 +16,13 @@ const userSignUpValidationSchema = z.object({
         address: z.string().optional()
     })
 });
-
+const loginValidationSchema = z.object({
+    body: z.object({
+        id: z.string({ required_error: "Id is required." }),
+        password: z.string({ required_error: "Password is required" })
+    })
+})
 export const AuthValidations = {
-    userSignUpValidationSchema
+    userSignUpValidationSchema,
+    loginValidationSchema
 };
