@@ -11,4 +11,13 @@ router.post(
     validateRequest(FacilityValidations.createFacilityValidationSchema),
     FacilityControllers.createFacility
 )
+router.get(
+    '/',
+    FacilityControllers.getAllFacilities
+)
+router.delete(
+    '/:id',
+    auth("admin"),
+    FacilityControllers.deleteFacility
+)
 export const FacilityRoutes = router;
