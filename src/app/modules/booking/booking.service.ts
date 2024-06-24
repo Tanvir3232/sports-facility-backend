@@ -46,6 +46,11 @@ const createBookingIntoDB = async (payload: TBooking) => {
     const result = await Booking.create({ ...payload, payableAmount, isBooked: 'confirmed' });
     return result;
 }
+const getAllBookingsFromDB = async () => {
+    const result = await Booking.find();
+    return result;
+}
 export const BookingServices = {
-    createBookingIntoDB
+    createBookingIntoDB,
+    getAllBookingsFromDB
 }
