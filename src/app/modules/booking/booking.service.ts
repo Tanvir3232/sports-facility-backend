@@ -47,10 +47,25 @@ const createBookingIntoDB = async (payload: TBooking) => {
     return result;
 }
 const getAllBookingsFromDB = async () => {
-    const result = await Booking.find();
+    const result = await Booking.find().populate('facility').populate('user');
     return result;
+}
+const getBookingsByUserFromDB = async (user: string) => {
+    const result = await Booking.find({ user: user }).populate('facility').populate('user');
+    return result;
+}
+const cancelBookingFromDB = async (bookingId: string) => {
+    const booking = await Booking.findById(bookingId).populate('facility');
+    if (!booking) {
+        throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+    }
+    booking.isBooked = 'canceled';
+    await booking.save();
+    return booking;
 }
 export const BookingServices = {
     createBookingIntoDB,
-    getAllBookingsFromDB
+    getAllBookingsFromDB,
+    getBookingsByUserFromDB,
+    cancelBookingFromDB
 }
