@@ -41,9 +41,23 @@ const cancelBooking = catchAsync(async (req, res) => {
         data: result
     })
 })
+const checkAvailability = catchAsync(async (req, res) => {
+
+    const date = req.query.date ? new Date(req.query.date as string) : new Date();
+    const availableSlots = await BookingServices.checkAvailabilityFromDB(date.toString());
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Availability checked successfully",
+        data: availableSlots
+    });
+});
+
 export const BookingControllers = {
     createBooking,
     getAllBookings,
     getBookingsByUser,
-    cancelBooking
+    cancelBooking,
+    checkAvailability
 }

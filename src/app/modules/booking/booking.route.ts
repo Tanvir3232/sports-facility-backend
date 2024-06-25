@@ -26,4 +26,6 @@ router.delete(
     auth("user"),
     BookingControllers.cancelBooking
 )
+
+
 export const BookingRoutes = router;

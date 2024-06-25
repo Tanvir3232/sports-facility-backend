@@ -63,9 +63,40 @@ const cancelBookingFromDB = async (bookingId: string) => {
     await booking.save();
     return booking;
 }
+const checkAvailabilityFromDB = async (date: string) => {
+    // Parse the date string to a Date object
+    const parsedDate = new Date(date);
+
+    // Fetch all bookings for the given date
+    const bookings = await Booking.find({ date: parsedDate });
+
+    // Define operational hours (8:00 AM to 6:00 PM) in an array
+    const operationalHours = [
+        "08:00", "09:00", "10:00", "11:00", "12:00",
+        "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"
+    ];
+
+    // Collect all booked time slots
+    const bookedSlots = bookings.map(booking => ({
+        startTime: booking.startTime,
+        endTime: booking.endTime
+    }));
+
+    // Find available time slots by filtering out booked slots
+    const availableSlots = operationalHours.filter(hour => {
+        return !bookedSlots.some(slot => slot.startTime <= hour && slot.endTime > hour);
+    }).map(startTime => ({
+        startTime,
+        endTime: `${parseInt(startTime.split(":")[0]) + 1}:00`
+    }));
+
+    // Return available time slots
+    return availableSlots;
+};
 export const BookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
     getBookingsByUserFromDB,
-    cancelBookingFromDB
+    cancelBookingFromDB,
+    checkAvailabilityFromDB
 }
