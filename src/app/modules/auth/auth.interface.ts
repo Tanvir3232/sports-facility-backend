@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Model, Types } from "mongoose";
 import { USER_ROLE } from "./auth.constant";
 
 export interface TUser {
+    toObject: any;
+    _id?: string;
     name: string;
     email: string;
     password: string;

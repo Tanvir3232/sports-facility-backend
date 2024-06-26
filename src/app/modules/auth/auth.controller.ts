@@ -7,7 +7,7 @@ import { AuthServices } from "./auth.service";
 
 const createUser = catchAsync(async (req, res) => {
     const result = await AuthServices.createUserIntoDB(req.body);
-    const { password, createdAt, updatedAt, ...userWithoutPassword } = result.toObject()
+    const { password, ...userWithoutPassword } = result.toObject();
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -19,11 +19,11 @@ const loginUser = catchAsync(async (req, res) => {
     const result = await AuthServices.loginUserInDB(req.body);
     const { user, refreshToken, accessToken } = result;
     // Remove the password from the user object
-    const { password, createdAt, updatedAt, ...withoutPasswordData } = user.toObject();
+    const { password, ...withoutPasswordData } = user.toObject();
 
     // Set the refresh token as an HTTP-only cookie
     res.cookie('refreshToken', refreshToken, {
-        secret: config.NODE_ENV === "production",
+        secure: config.NODE_ENV === "development",
         httpOnly: true,
     });
 

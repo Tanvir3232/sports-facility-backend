@@ -10,7 +10,7 @@ import catchAsync from "../utils/catchAsync";
 
 const auth = (...requiredRoles: TUserRole[]) => {
     return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const token = req.headers.authorization;
+        const token = req.headers.authorization?.split(' ')[1]; // Bearer TOKEN
         //If the token is sent from the client
         if (!token) {
             throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized')
@@ -33,7 +33,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         }
         //decoded undifined
         console.log(decoded)
-        req.user = decoded as JwtPayload
+        req.user = decoded as JwtPayload;
         next()
     })
 }
