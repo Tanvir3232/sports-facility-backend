@@ -6,6 +6,10 @@ import { User } from "./auth.model";
 import { createToken } from "./auth.utils";
 
 const createUserIntoDB = async (payload: TUser) => {
+    const isUserExist = await User.findOne({ email: payload.email });
+    if (isUserExist) {
+        throw new AppError(httpStatus.CONFLICT, "This email address already used for register!Please try another email address")
+    }
 
     const result = await User.create(payload);
     return result;
