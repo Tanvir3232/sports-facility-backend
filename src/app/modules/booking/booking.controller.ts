@@ -4,7 +4,10 @@ import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.service";
 
 const createBooking = catchAsync(async (req, res) => {
-    const result = await BookingServices.createBookingIntoDB(req.body);
+    const user = req.user.userId;
+    console.log(user)
+    const result = await BookingServices.createBookingIntoDB({ ...req.body, user });
+
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,

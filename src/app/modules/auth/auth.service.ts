@@ -16,8 +16,8 @@ const createUserIntoDB = async (payload: TUser) => {
 }
 const loginUserInDB = async (payload: TLoginUser) => {
     //checking if the user is exist
-    const userId = payload.id.toString();
-    const user = await User.isUserExistsByCustomId(userId)
+    const email = payload.email.toString();
+    const user = await User.isUserExistsByEmail(email)
     console.log({ user })
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!')
@@ -31,6 +31,7 @@ const loginUserInDB = async (payload: TLoginUser) => {
     //create token and send to the client 
     const jwtPayload = {
         userId: user?._id as string,
+        email: user?.email,
         role: user.role
     }
     const accessToken = createToken(jwtPayload, config.jwt_access_secret as string, '1d');

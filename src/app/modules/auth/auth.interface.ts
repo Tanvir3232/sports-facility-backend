@@ -13,12 +13,12 @@ export interface TUser {
     address: string
 }
 export type TLoginUser = {
-    id: Types.ObjectId;
+    email: Types.ObjectId;
     password: string;
 }
 export type TUserRole = keyof typeof USER_ROLE;
 export interface UserModel extends Model<TUser> {
-    isUserExistsByCustomId(id: string): Promise<TUser>;
+    isUserExistsByEmail(email: string): Promise<TUser>;
     isPasswordMatched(plainTextPassword: string, hashedPassword: string): Promise<boolean>;
 
 }
