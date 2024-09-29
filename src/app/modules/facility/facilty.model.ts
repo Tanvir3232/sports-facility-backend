@@ -22,6 +22,10 @@ const faciltySchema = new Schema<TFacility>({
     isDeleted: {
         type: Boolean,
         default: false
+    },
+    image: {
+        type: String,
+        required: true
     }
 })
 export const Facility = mongoose.model<TFacility>('Facility', faciltySchema);
