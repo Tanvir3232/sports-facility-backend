@@ -15,6 +15,10 @@ router.get(
     '/',
     FacilityControllers.getAllFacilities
 )
+router.get(
+    '/:id',
+    FacilityControllers.getSingleFacility
+)
 router.delete(
     '/:id',
     auth("admin"),

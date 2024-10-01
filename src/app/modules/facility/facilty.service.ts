@@ -11,6 +11,10 @@ const getAllFacilitiesFromDB = async () => {
     const result = await Facility.find({ isDeleted: false });
     return result;
 }
+const getSingleFacilityFromDB = async (id: string) => {
+    const result = await Facility.findById(id)
+    return result;
+}
 const deleteFacilityFromDB = async (id: string) => {
     const result = await Facility.findByIdAndUpdate(
         id,
@@ -35,5 +39,6 @@ export const FacilityServices = {
     createFacilityIntoDB,
     getAllFacilitiesFromDB,
     deleteFacilityFromDB,
-    updateFacilityFromDB
+    updateFacilityFromDB,
+    getSingleFacilityFromDB
 }
